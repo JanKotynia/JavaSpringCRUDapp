@@ -12,4 +12,5 @@ public interface ZoneService {
     Optional<Zone> getZonesById(UUID id);
     Zone updateZone(UUID zoneId, Zone zone);
     void deleteZone(UUID zoneId);
+    boolean isExist(UUID zoneId);
 }

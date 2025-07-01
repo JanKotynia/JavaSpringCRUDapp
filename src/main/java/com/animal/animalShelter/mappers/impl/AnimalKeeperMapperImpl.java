@@ -40,9 +40,6 @@ public class AnimalKeeperMapperImpl implements AnimalKeeperMapper {
                 animalKeeper.getSurname(),
                 animalKeeper.getPesel(),
                 Optional.ofNullable(animalKeeper.getAnimals())
-                        .map(List::size)
-                        .orElse(0),
-                Optional.ofNullable(animalKeeper.getAnimals())
                         .map(animals ->
                                 animals.stream().map(animalMapper::toDto).toList()
                         ).orElse(null)

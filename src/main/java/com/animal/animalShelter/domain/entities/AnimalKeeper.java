@@ -1,11 +1,13 @@
 package com.animal.animalShelter.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Builder
 @Entity
 @Table(name = "animal_keeper")
 public class AnimalKeeper {

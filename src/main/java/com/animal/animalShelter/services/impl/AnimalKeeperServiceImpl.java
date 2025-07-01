@@ -5,6 +5,7 @@ import com.animal.animalShelter.domain.entities.Zone;
 import com.animal.animalShelter.repositories.AnimalKeeperRepository;
 import com.animal.animalShelter.services.AnimalKeeperService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class AnimalKeeperServiceImpl implements AnimalKeeperService {
 
     private final AnimalKeeperRepository animalKeeperRepository;
@@ -70,5 +72,10 @@ public class AnimalKeeperServiceImpl implements AnimalKeeperService {
         existingAnimalKeeper.setSurname(animalKeeper.getSurname());
         existingAnimalKeeper.setPesel(animalKeeper.getPesel());
         return animalKeeperRepository.save(existingAnimalKeeper);
+    }
+
+    @Override
+    public boolean isExist(UUID animalKeeperId) {
+        return animalKeeperRepository.existsById(animalKeeperId);
     }
 }

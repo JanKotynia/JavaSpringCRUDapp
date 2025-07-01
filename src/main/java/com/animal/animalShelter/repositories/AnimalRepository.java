@@ -10,6 +10,7 @@ import java.util.UUID;
 
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, UUID>{
+    Optional<Animal> findById(UUID id);
     List<Animal> findByZoneId(UUID zoneId);
     Optional<Animal> findByZoneIdAndId(UUID zoneId, UUID id);
     List<Animal> findByAnimalKeeperId(UUID animalKeeperId);

@@ -1,11 +1,13 @@
 package com.animal.animalShelter.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@Builder
 @Entity
 @Table(name = "animals")
 public class Animal {

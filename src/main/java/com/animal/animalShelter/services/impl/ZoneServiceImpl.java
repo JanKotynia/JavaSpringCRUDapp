@@ -4,6 +4,7 @@ import com.animal.animalShelter.domain.entities.Zone;
 import com.animal.animalShelter.repositories.ZoneRepository;
 import com.animal.animalShelter.services.ZoneService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class ZoneServiceImpl implements ZoneService {
     private final ZoneRepository zoneRepository;
 
@@ -69,5 +71,10 @@ public class ZoneServiceImpl implements ZoneService {
     @Override
     public void deleteZone(UUID zoneId) {
         zoneRepository.deleteById(zoneId);
+    }
+
+    @Override
+    public boolean isExist(UUID zoneId) {
+        return zoneRepository.existsById(zoneId);
     }
 }

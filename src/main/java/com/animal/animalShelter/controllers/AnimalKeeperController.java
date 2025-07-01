@@ -4,6 +4,8 @@ import com.animal.animalShelter.domain.dto.AnimalKeeperDto;
 import com.animal.animalShelter.domain.entities.AnimalKeeper;
 import com.animal.animalShelter.mappers.AnimalKeeperMapper;
 import com.animal.animalShelter.services.AnimalKeeperService;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/animalKeepers")
+@RequestMapping(path = "/keepers")
 public class AnimalKeeperController {
     private final AnimalKeeperService animalKeeperService;
     private final AnimalKeeperMapper animalKeeperMapper;
@@ -31,30 +33,39 @@ public class AnimalKeeperController {
     }
 
     @GetMapping(path = "/{id}")
-    public Optional<AnimalKeeperDto> getAnimalkeeper(@PathVariable("id")UUID animalKeeperId){
-        return animalKeeperService.getAnimalKeeper(animalKeeperId).map(animalKeeperMapper::toDto);
+    public ResponseEntity<AnimalKeeperDto> getAnimalkeeper(@PathVariable("id")UUID animalKeeperId){
+        Optional<AnimalKeeper> animalKeeper = animalKeeperService.getAnimalKeeper(animalKeeperId);
+
+        return animalKeeper.map(animalKeeperEntity -> {
+            AnimalKeeperDto animalKeeperDto = animalKeeperMapper.toDto(animalKeeperEntity);
+            return new ResponseEntity<>(animalKeeperDto, HttpStatusCode.valueOf(201));
+        }).orElse(new ResponseEntity<>(HttpStatusCode.valueOf(404)));
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteAnimalKeeper(@PathVariable("id")UUID animalKeeperId){
+    public ResponseEntity<AnimalKeeperDto> deleteAnimalKeeper(@PathVariable("id")UUID animalKeeperId){
         animalKeeperService.deleteAnimalKeeper(animalKeeperId);
+        return new ResponseEntity<>(HttpStatusCode.valueOf(204));
     }
 
     @PostMapping
-    public AnimalKeeperDto createAnimalKeeper(@RequestBody AnimalKeeperDto animalKeeperDto){
+    public ResponseEntity<AnimalKeeperDto> createAnimalKeeper(@RequestBody AnimalKeeperDto animalKeeperDto){
         AnimalKeeper createdAnimalKeeper = animalKeeperService.createAnimalKeeper(
                 animalKeeperMapper.fromDto(animalKeeperDto)
         );
-        return animalKeeperMapper.toDto(createdAnimalKeeper);
+        return new ResponseEntity<>(animalKeeperMapper.toDto(createdAnimalKeeper), HttpStatusCode.valueOf(201));
     }
 
-    @PostMapping(path = "/{id}")
-    public AnimalKeeperDto updateAnimalKeeper(@PathVariable("id") UUID animalKeeperId, @RequestBody AnimalKeeperDto animalKeeperDto){
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<AnimalKeeperDto> updateAnimalKeeper(@PathVariable("id") UUID animalKeeperId, @RequestBody AnimalKeeperDto animalKeeperDto){
+        if(!animalKeeperService.isExist(animalKeeperId))
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+
         AnimalKeeper updatedAnimalKeeper = animalKeeperService.updateAnimalKeeper(
                 animalKeeperId,
                 animalKeeperMapper.fromDto(animalKeeperDto)
         );
 
-        return animalKeeperDto; //khkdjkgjskfgjksgfjksgfjgfksjsfkjgkijgfkjgfkjgfsgfjkisgfjkgsfjksgfj
+        return new ResponseEntity<>(animalKeeperMapper.toDto(updatedAnimalKeeper), HttpStatusCode.valueOf(201));
     }
 }

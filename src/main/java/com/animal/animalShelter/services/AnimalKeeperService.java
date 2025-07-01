@@ -13,4 +13,6 @@ public interface AnimalKeeperService {
     AnimalKeeper createAnimalKeeper(AnimalKeeper animalKeeper);
     void deleteAnimalKeeper(UUID animalKeeperId);
     AnimalKeeper updateAnimalKeeper(UUID animalKeeperId, AnimalKeeper animalKeeper);
+    boolean isExist(UUID animalKeeperId);
+
 }
