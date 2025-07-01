@@ -38,11 +38,11 @@ public class AnimalKeeperController {
 
         return animalKeeper.map(animalKeeperEntity -> {
             AnimalKeeperDto animalKeeperDto = animalKeeperMapper.toDto(animalKeeperEntity);
-            return new ResponseEntity<>(animalKeeperDto, HttpStatusCode.valueOf(201));
+            return new ResponseEntity<>(animalKeeperDto, HttpStatusCode.valueOf(200));
         }).orElse(new ResponseEntity<>(HttpStatusCode.valueOf(404)));
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<AnimalKeeperDto> deleteAnimalKeeper(@PathVariable("id")UUID animalKeeperId){
         animalKeeperService.deleteAnimalKeeper(animalKeeperId);
         return new ResponseEntity<>(HttpStatusCode.valueOf(204));

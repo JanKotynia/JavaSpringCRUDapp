@@ -84,7 +84,7 @@ public class AnimalController {
         return new ResponseEntity<>(animalMapper.toDto(updatedAnimal), HttpStatusCode.valueOf(201));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<AnimalDto> deleteAnimal(@PathVariable("id") UUID aniamId){
         animalService.deleteAnimal(aniamId);
         return new ResponseEntity<>(HttpStatusCode.valueOf(204));
